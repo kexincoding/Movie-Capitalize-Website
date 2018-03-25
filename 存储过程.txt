@@ -1,0 +1,18 @@
+需要建立以下存储过程，并给用户执行权限
+----------------------------------------------------
+CREATE PROCEDURE [dbo].[updatescore]
+	-- Add the parameters for the stored procedure here
+	@username nvarchar(20),@score float , @mid int
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+    update movie 
+    set score=((score*number+@score*(select uid from usertable where uname=@username))/((select uid from usertable where uname=@username)+number)),number=(select uvalue from usertable where uname=@username)+number where mid=@mid;
+	
+END
+GO
+
+
+
